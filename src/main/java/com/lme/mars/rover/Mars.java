@@ -14,6 +14,9 @@ public class Mars {
     private final Set<RobotLocationWithOrientation> robotScentTracker = new HashSet<>();
 
     public Mars(int x, int y) {
+        if (x < 0 || x > 50 || y < 0 || y > 50) {
+            throw new IllegalArgumentException(String.format("Invalid x or y value, x:%d, y:%d", x, y));
+        }
         this.x = x;
         this.y = y;
     }
