@@ -3,16 +3,16 @@ package com.lme.mars.rover;
 
 import java.util.List;
 
-import static com.lme.mars.rover.RobotInstruction.RIGHT;
+import static com.lme.mars.rover.RobotInstruction.R;
 
 public enum Orientation {
 
-    NORTH(0, 1),
-    EAST(1, 0),
-    SOUTH(0, -1),
-    WEST(-1, 0);
+    N(0, 1),
+    E(1, 0),
+    S(0, -1),
+    W(-1, 0);
 
-    private static final List<Orientation> ORIENTATION_LIST = List.of(NORTH, EAST, SOUTH, WEST);
+    private static final List<Orientation> ORIENTATION_LIST = List.of(N, E, S, W);
     private final int xMove;
     private final int yMove;
 
@@ -23,18 +23,18 @@ public enum Orientation {
 
     public Orientation turn(RobotInstruction robotInstruction) {
         int orientationPosition = ordinal();
-        orientationPosition += robotInstruction == RIGHT ? 1 : -1;
+        orientationPosition += robotInstruction == R ? 1 : -1;
         if (orientationPosition < 0) {
-            return WEST;
+            return W;
         }
         if (orientationPosition > 3) {
-            return NORTH;
+            return N;
         }
         return ORIENTATION_LIST.get(orientationPosition);
     }
 
     public RobotLocation move(RobotLocation currentLocation) {
-        return currentLocation.moveLocation(this.xMove, this.yMove);
+        return currentLocation.moveLocation(xMove, yMove);
     }
 
 }

@@ -24,23 +24,23 @@ class OrientationTest {
 
     private static Stream<Arguments> shouldTurnParameters() {
         return Stream.of(
-            Arguments.of(Orientation.NORTH, RobotInstruction.RIGHT, Orientation.EAST),
-            Arguments.of(Orientation.EAST, RobotInstruction.RIGHT, Orientation.SOUTH),
-            Arguments.of(Orientation.SOUTH, RobotInstruction.RIGHT, Orientation.WEST),
-            Arguments.of(Orientation.WEST, RobotInstruction.RIGHT, Orientation.NORTH),
-            Arguments.of(Orientation.NORTH, RobotInstruction.LEFT, Orientation.WEST),
-            Arguments.of(Orientation.WEST, RobotInstruction.LEFT, Orientation.SOUTH),
-            Arguments.of(Orientation.SOUTH, RobotInstruction.LEFT, Orientation.EAST),
-            Arguments.of(Orientation.EAST, RobotInstruction.LEFT, Orientation.NORTH)
+            Arguments.of(Orientation.N, RobotInstruction.R, Orientation.E),
+            Arguments.of(Orientation.E, RobotInstruction.R, Orientation.S),
+            Arguments.of(Orientation.S, RobotInstruction.R, Orientation.W),
+            Arguments.of(Orientation.W, RobotInstruction.R, Orientation.N),
+            Arguments.of(Orientation.N, RobotInstruction.L, Orientation.W),
+            Arguments.of(Orientation.W, RobotInstruction.L, Orientation.S),
+            Arguments.of(Orientation.S, RobotInstruction.L, Orientation.E),
+            Arguments.of(Orientation.E, RobotInstruction.L, Orientation.N)
         );
     }
 
     private static Stream<Arguments> shouldMoveParameters() {
         return Stream.of(
-            Arguments.of(Orientation.NORTH, new RobotLocation(2, 3)),
-            Arguments.of(Orientation.EAST, new RobotLocation(3, 2)),
-            Arguments.of(Orientation.SOUTH, new RobotLocation(2, 1)),
-            Arguments.of(Orientation.WEST, new RobotLocation(1, 2))
+            Arguments.of(Orientation.N, new RobotLocation(2, 3)),
+            Arguments.of(Orientation.E, new RobotLocation(3, 2)),
+            Arguments.of(Orientation.S, new RobotLocation(2, 1)),
+            Arguments.of(Orientation.W, new RobotLocation(1, 2))
         );
     }
 }
