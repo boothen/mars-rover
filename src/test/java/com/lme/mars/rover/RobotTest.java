@@ -55,4 +55,17 @@ class RobotTest {
         robot1.executeInstruction(RobotInstruction.L);
         assertThat(robot1.toString()).isEqualTo("10 10 N LOST");
     }
+
+    @Test
+    void shouldConstructRobotFromString() {
+        Robot robot = new Robot(new Mars(10, 10), "9 9 S");
+        assertThat(robot.toString()).isEqualTo("9 9 S");
+    }
+
+    @Test
+    void shouldExecuteInstructionSet() {
+        Robot robot = new Robot(new Mars(10, 10), "0 0 N");
+        robot.executeInstructionSet("FFFRFFFRFLLLF");
+        assertThat(robot.toString()).isEqualTo("2 2 W");
+    }
 }

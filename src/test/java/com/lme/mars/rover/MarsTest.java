@@ -39,6 +39,12 @@ class MarsTest {
         assertThat(mars.hasScent(new RobotLocation(0, 0), Orientation.S)).isFalse();
     }
 
+    @Test
+    void shouldConstructMarsGridFromString() {
+        Mars mars1 = new Mars("10 10");
+        assertThatExceptionOfType(RobotOffGridException.class).isThrownBy(() -> mars1.move(new RobotLocation(10, 10), Orientation.E));
+    }
+
     @ParameterizedTest
     @MethodSource("invalidGridSizeParameters")
     void shouldThrowExceptionWhenGridIsInvalidSize(int x, int y) {

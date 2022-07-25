@@ -21,6 +21,11 @@ public class Mars {
         this.y = y;
     }
 
+    public Mars(String coordinates) {
+        this(Integer.parseInt(coordinates.split(" ")[0]),
+             Integer.parseInt(coordinates.split(" ")[1]));
+    }
+
     public boolean hasScent(RobotLocation robotLocation, Orientation orientation) {
         return robotScentTracker.contains(new RobotLocationWithOrientation(robotLocation, orientation));
     }
