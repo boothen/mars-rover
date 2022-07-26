@@ -1,36 +1,48 @@
 package com.lme.mars.rover;
 
+import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Robot that receives instructions and execute commands from those instructions.
+ *
+ * Keeps track of its current location and orientation and whether it has become lost.
+ *
+ * Once a Robot has become lost all subsequent instructions are not processed.
+ *
+ * N.B Adding a new RobotInstruction will require a new entry adding to INSTRUCTION_COMMAND_MAP
+ * and either a new command or an update to an existing one.
+ */
 public class Robot {
 
-    public static final String LOST = " LOST";
+    private static final String LOST = " LOST";
+
+    private static final Map<RobotInstruction, Command> INSTRUCTION_COMMAND_MAP = Map.of(RobotInstruction.R, new TurnCommand(),
+                                                                                         RobotInstruction.L, new TurnCommand(),
+                                                                                         RobotInstruction.F, new MoveCommand());
     private final Mars mars;
-    private RobotLocation robotLocation;
-    private Orientation orientation;
+    private RobotLocation currentLocation;
+    private RobotOrientation currentOrientation;
     private boolean lost;
 
-    public Robot(Mars mars, RobotLocation initialLocation, Orientation initialOrientation) {
+    public Robot(Mars mars, RobotLocation initialLocation, RobotOrientation initialOrientation) {
         this.mars = mars;
-        robotLocation = initialLocation;
-        orientation = initialOrientation;
+        currentLocation = initialLocation;
+        currentOrientation = initialOrientation;
     }
 
     public Robot(Mars mars, String initialLocationAndOrientation) {
         this(mars,
              new RobotLocation(Integer.parseInt(initialLocationAndOrientation.split(" ")[0]),
                                Integer.parseInt(initialLocationAndOrientation.split(" ")[1])),
-             Orientation.valueOf(initialLocationAndOrientation.split(" ")[2]));
+             RobotOrientation.valueOf(initialLocationAndOrientation.split(" ")[2]));
     }
 
     public void executeInstruction(RobotInstruction instruction) {
         if (lost) {
             return;
         }
-        switch (instruction) {
-            case R, L -> orientation = orientation.turn(instruction);
-            case F -> executeMove();
-        }
+        INSTRUCTION_COMMAND_MAP.get(instruction).executeCommand(this, instruction);
     }
 
     public void executeInstructionSet(String instructionSet) {
@@ -42,21 +54,37 @@ public class Robot {
         }
     }
 
-    private void executeMove() {
-        if (mars.hasScent(robotLocation, orientation)) {
-            return;
-        }
+    @Override
+    public String toString() {
+        return currentLocation.toString() + " " + currentOrientation.toString() + (lost ? LOST : "");
+    }
 
-        try {
-            robotLocation = mars.move(robotLocation, orientation);
-        } catch (RobotOffGridException e) {
-            mars.leaveScent(robotLocation, orientation);
-            lost = true;
+    private interface Command {
+        void executeCommand(Robot robot, RobotInstruction instruction);
+    }
+
+    private static class MoveCommand implements Command {
+
+        @Override
+        public void executeCommand(Robot robot, RobotInstruction instruction) {
+            if (robot.mars.hasScent(robot.currentLocation, robot.currentOrientation)) {
+                return;
+            }
+
+            try {
+                robot.currentLocation = robot.mars.move(robot.currentLocation, robot.currentOrientation);
+            } catch (RobotOffGridException e) {
+                robot.mars.leaveScent(robot.currentLocation, robot.currentOrientation);
+                robot.lost = true;
+            }
         }
     }
 
-    @Override
-    public String toString() {
-        return robotLocation.toString() + " " + orientation.toString() + (lost ? LOST : "");
+    private static class TurnCommand implements Command {
+
+        @Override
+        public void executeCommand(Robot robot, RobotInstruction instruction) {
+            robot.currentOrientation = robot.currentOrientation.turn(instruction);
+        }
     }
 }

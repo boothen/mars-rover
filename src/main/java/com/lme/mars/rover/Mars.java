@@ -3,9 +3,12 @@ package com.lme.mars.rover;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Mars - defines the overall size of the Mars Grid and tracks the Robot scents as they fall off the grid.
+ */
 public class Mars {
 
-    private record RobotLocationWithOrientation(RobotLocation robotLocation, Orientation orientation) {
+    private record RobotLocationWithOrientation(RobotLocation robotLocation, RobotOrientation orientation) {
 
     }
 
@@ -26,11 +29,11 @@ public class Mars {
              Integer.parseInt(coordinates.split(" ")[1]));
     }
 
-    public boolean hasScent(RobotLocation robotLocation, Orientation orientation) {
+    public boolean hasScent(RobotLocation robotLocation, RobotOrientation orientation) {
         return robotScentTracker.contains(new RobotLocationWithOrientation(robotLocation, orientation));
     }
 
-    public RobotLocation move(RobotLocation robotLocation, Orientation orientation) throws RobotOffGridException {
+    public RobotLocation move(RobotLocation robotLocation, RobotOrientation orientation) throws RobotOffGridException {
         RobotLocation newLocation = orientation.move(robotLocation);
         if (newLocation.offGrid(x, y)) {
             throw new RobotOffGridException();
@@ -39,7 +42,7 @@ public class Mars {
         return newLocation;
     }
 
-    public void leaveScent(RobotLocation robotLocation, Orientation orientation) {
+    public void leaveScent(RobotLocation robotLocation, RobotOrientation orientation) {
         robotScentTracker.add(new RobotLocationWithOrientation(robotLocation, orientation));
     }
 }

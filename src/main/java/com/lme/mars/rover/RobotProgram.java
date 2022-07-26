@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Main entry point to execute the Robot input program and receive the output.
+ */
 public class RobotProgram {
 
     public String executeProgram(String input) {

@@ -1,5 +1,11 @@
 package com.lme.mars.rover;
 
+/**
+ * RobotLocation on Mars
+ *
+ * @param x
+ * @param y
+ */
 public record RobotLocation(int x, int y) {
 
     public RobotLocation moveLocation(int xMove, int yMove) {
