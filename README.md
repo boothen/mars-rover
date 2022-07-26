@@ -23,7 +23,7 @@ If a size of greater than 50 is passed then an IllegalArgumentException is throw
 rather than a requirement to be validated.
 
 `There is also a possibility that additional command types may be required in the future and
-provision should be made for this.` - to facilitate this, I've mapped a `RobotInstruction` to a Command. 
+provision should be made for this.` - to facilitate this, I've mapped a `RobotInstruction` to a `Command`. 
 Although, it's easy to determine what a new `RobotInstruction` will be, if we take an example of adding a Backwards command. The following steps are required.
 
 1. The new Instruction code `B` should be added to RobotInstruction.
