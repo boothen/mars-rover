@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Mars - defines the overall size of the Mars Grid and tracks the Robot scents as they fall off the grid.
+ * Mars - defines the overall size of the Mars Grid and tracks the Robot scent where they fall off the grid.
  */
 public class Mars {
 
